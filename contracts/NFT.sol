@@ -30,7 +30,7 @@ contract NFT is ERC721URIStorage {
         return newItemId;
     }
 
-    function modifyRental(bool value, uint256 tokenId) external {
+    function modifyRental(bool value, uint256 tokenId) external onlyMarketPlace{
         
         rental[tokenId] = value;
 
@@ -44,6 +44,13 @@ contract NFT is ERC721URIStorage {
         require(!rental[tokenId], "RentableNFT: this token is rented");
 
         super._beforeTokenTransfer(from, to, tokenId);
+    }
+
+    modifier onlyMarketPlace() {
+        
+        require(msg.sender == contractAddress, "Caller must be contractAddress");
+        _;
+
     }
 
 }
