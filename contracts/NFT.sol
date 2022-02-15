@@ -30,6 +30,20 @@ contract NFT is ERC721URIStorage {
         return newItemId;
     }
 
-    
+    function modifyRental(bool value, uint256 tokenId) external {
+        
+        rental[tokenId] = value;
+
+    }
+
+    function _beforeTokenTransfer(
+        address from,
+        address to,
+        uint256 tokenId
+    ) internal override(ERC721) {
+        require(!rental[tokenId], "RentableNFT: this token is rented");
+
+        super._beforeTokenTransfer(from, to, tokenId);
+    }
 
 }
