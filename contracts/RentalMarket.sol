@@ -45,6 +45,45 @@ contract RentalMarket {
   function getListingPrice() public view returns (uint256) {
     return listingPrice;
   }
+
+  /* Places an item for rent on the marketplace */
+  function createMarketItem(address nftContract, uint256 tokenId, uint256 price, uint256 expiresAt ) public payable 
+  {
+    
+    require(price > 0, "Price must be at least 1 wei");
+    require(msg.value == listingPrice, "Price must be equal to listing price");
+
+    _itemIds.increment();
+    uint256 itemId = _itemIds.current();
+    
+
+    idToMarketItem[itemId] =  MarketItem(
+      itemId,
+      false,
+      address(nftContract),
+      tokenId,
+      payable(msg.sender),
+      address(0),
+      price,
+      expiresAt
+    );
+
+    IERC721(nftContract).transferFrom(msg.sender, address(this), tokenId);
+    payable(owner).transfer(listingPrice);
+
+    emit MarketItemCreated(
+      itemId,
+      false,
+      nftContract,
+      tokenId,
+      msg.sender,
+      address(0),
+      price,
+      expiresAt
+    );
+
+  }
+
   
   
 }
