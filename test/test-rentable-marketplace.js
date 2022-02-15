@@ -70,6 +70,8 @@ describe("NFTMarket", function() {
     
     console.log("~~~~~~~~~~~~~~~~~~~~~~~ USER CAN PAYBACK THE RENTED NFT ~~~~~~~~~~~~~~~~~~~~~~~")
     console.log();
+    
+    
     console.log("~~~~~~~~~~~~~~~~~~~~~~~ EARLY FINISH ~~~~~~~~~~~~~~~~~~~~~~~")
     console.log("NFT 1 Owner Before-> ", await nft.ownerOf(1))
     await market.connect(renterAddress).finishRenting(1)

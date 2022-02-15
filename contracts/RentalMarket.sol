@@ -132,7 +132,7 @@ contract RentalMarket is ReentrancyGuard{
         require(success);
 
         (bool success2, ) = (_rental.NFTContract).call(
-              abi.encodeWithSignature("performTokenTransfer(address,address,uint256)", _rental.renter, _rental.seller, _rental.tokenId)
+              abi.encodeWithSignature("performTokenTransfer(address,address,uint256)", _rental.renter, address(this), _rental.tokenId)
         );
         require(success2);
 
