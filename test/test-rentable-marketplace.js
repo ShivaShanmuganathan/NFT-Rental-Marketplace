@@ -4,7 +4,7 @@ const dayjs = require("dayjs");
 const { network  } = require("hardhat");
 
 
-describe("NFTMarket", function() {
+describe("NFT Rental Marketplace", function() {
   it("Should List NFT for Rent in Marketplace, allow anyone to Rent from Marketplace, enable finish renting on NFT ", async function() {
 
     const Market = await ethers.getContractFactory("RentalMarket")
@@ -28,23 +28,21 @@ describe("NFTMarket", function() {
     const [buyerAddress, renterAddress, renterAddress2, guyAddress] = await ethers.getSigners()
 
     await nft.connect(buyerAddress).createToken("https://www.mytokenlocation.com")
-    // await nft.connect(buyerAddress).buyToken(1, { value: NFT_price})
+    
     await nft.connect(buyerAddress).createToken("https://www.mytokenlocation2.com")
-    // await nft.connect(buyerAddress).buyToken(2, { value: NFT_price})
+    
     await nft.connect(buyerAddress).createToken("https://www.mytokenlocation3.com")
-    // await nft.connect(buyerAddress).buyToken(3, { value: NFT_price})
+    
     await nft.connect(buyerAddress).createToken("https://www.mytokenlocation3.com")
   
-    // console.log("NFT 1 Owner Before-> ", await nft.ownerOf(1))
+    
     await market.connect(buyerAddress).createMarketItem(nftContractAddress, 1, auctionPrice, expiresAt, { value: listingPrice })
-    // console.log("NFT 1 Owner After-> ", await nft.ownerOf(1))
-    // console.log("MarketPlace Address-> ", marketAddress)
-    // console.log("~~~~~~~~~~~~~~~~~~~~~~~ USER CAN DEPOSIT TO MARKETPLACE ~~~~~~~~~~~~~~~~~~~~~~~")
-
+    
     await market.connect(buyerAddress).createMarketItem(nftContractAddress, 2, auctionPrice, expiresAt, { value: listingPrice })
     await market.connect(buyerAddress).createMarketItem(nftContractAddress, 3, auctionPrice, expiresAt, { value: listingPrice })
-
-    // console.log("NFT 1 Owner Before-> ", await nft.ownerOf(1))
+    
+    console.log("~~~~~~~~~~~~~~~~~~~~~~~ USER CAN LIST NFT FOR RENT IN MARKETPLACE ~~~~~~~~~~~~~~~~~~~~~~~")
+    
     await market.connect(renterAddress).rentMarketItem(nftContractAddress, 1, { value: auctionPrice});
     await market.connect(renterAddress).rentMarketItem(nftContractAddress, 2, { value: auctionPrice});
     console.log("NFT 3 Owner Before-> ", await nft.ownerOf(3))
@@ -52,11 +50,7 @@ describe("NFTMarket", function() {
     await market.connect(renterAddress2).rentMarketItem(nftContractAddress, 3, { value: auctionPrice});
     
       
-    // console.log("NFT 1 Owner After-> ", await nft.ownerOf(1))
-    // console.log("Renter Address-> ", renterAddress.address)
-    // console.log("~~~~~~~~~~~~~~~~~~~~~~~ USER CAN RENT FROM MARKETPLACE ~~~~~~~~~~~~~~~~~~~~~~~")
-
-    // console.log("~~~~~~~~~~~~~~~~~~~~~~~ USER CAN PAYBACK THE RENTED NFT ~~~~~~~~~~~~~~~~~~~~~~~")
+    console.log("~~~~~~~~~~~~~~~~~~~~~~~ USER CAN RENT FROM MARKETPLACE ~~~~~~~~~~~~~~~~~~~~~~~")
     
     await expect(
       nft.connect(renterAddress).transferFrom(renterAddress.address, guyAddress.address, 1)
@@ -66,10 +60,6 @@ describe("NFTMarket", function() {
     
     
     await expect(market.connect(guyAddress).createMarketItem(nftContractAddress, 4, auctionPrice, expiresAt, { value: listingPrice })).to.be.revertedWith('ERC721: transfer of token that is not own')
-    
-    
-    console.log("~~~~~~~~~~~~~~~~~~~~~~~ USER CAN PAYBACK THE RENTED NFT ~~~~~~~~~~~~~~~~~~~~~~~")
-    console.log();
 
     await expect(nft.connect(renterAddress2).transferFrom(renterAddress2.address, guyAddress.address, 3)).to.be.reverted;
     console.log("Owner Of Token 3",await nft.connect(renterAddress2).ownerOf(3));
@@ -95,30 +85,37 @@ describe("NFTMarket", function() {
     console.log("NFT 2 Owner After-> ", await nft.ownerOf(2))
     console.log("MarketPlace Address-> ", marketAddress)
     console.log();
-    console.log("~~~~~~~~~~~~~~~~~~~~~~~ USER CAN PAYBACK THE RENTED NFT END ~~~~~~~~~~~~~~~~~~~~~~~")
+    console.log("~~~~~~~~~~~~~~~~~~~~~~~ USER CAN PAYBACK THE RENTED NFT ~~~~~~~~~~~~~~~~~~~~~~~")
     
     const expiresAtNew = dayjs().add(3, 'day').unix()
     console.log();
-    console.log("~~~~~~~~~~~~~~~~~~~~~~~ OWNER CAN COLLECT THE NFT FROM MARKETPLACE ~~~~~~~~~~~~~~~~~~~~~~~");
+    
     
     await market.connect(buyerAddress).tokenOwnerClaimsNFT(1);
-    
-    console.log("Previous Time", expiresAt);
-    
+    console.log("~~~~~~~~~~~~~~~~~~~~~~~ OWNER CAN COLLECT THE NFT FROM MARKETPLACE ~~~~~~~~~~~~~~~~~~~~~~~");
     
     let newListingPrice = (await market.getListingPrice())/2
     newListingPrice = newListingPrice.toString()
     
     await market.connect(buyerAddress).tokenOwnerModifiesNFT(2, auctionPrice, expiresAtNew, { value: newListingPrice });
-    await market.connect(renterAddress).rentMarketItem(nftContractAddress, 2, { value: auctionPrice});
+    
     
     await market.connect(buyerAddress).tokenOwnerModifiesNFT(3, auctionPrice, expiresAtNew, { value: newListingPrice });
+    console.log("~~~~~~~~~~~~~~~~~~~~~~~ OWNER CAN MODIFY THE RENTAL DETAILS OF NFT IN MARKETPLACE ~~~~~~~~~~~~~~~~~~~~~~~");
+    
+    await market.connect(renterAddress).rentMarketItem(nftContractAddress, 2, { value: auctionPrice});
     await market.connect(renterAddress2).rentMarketItem(nftContractAddress, 3, { value: auctionPrice});
     
     await market.connect(renterAddress).finishRenting(2);
 
     await network.provider.send('evm_setNextBlockTimestamp', [expiresAtNew]);
-    await market.connect(buyerAddress).finishRenting(3);
+    await market.connect(guyAddress).finishRenting(3);
+    console.log("~~~~~~~~~~~~~~~~~~~~~~~ ANYONE CAN FINISH RENTING THE NFT FROM MARKETPLACE ~~~~~~~~~~~~~~~~~~~~~~~");
+
+    await market.connect(buyerAddress).tokenOwnerClaimsNFT(2);
+    await market.connect(buyerAddress).tokenOwnerClaimsNFT(3);
+    console.log("~~~~~~~~~~~~~~~~~~~~~~~ OWNER CAN COLLECT THE NFT FROM MARKETPLACE 2 ~~~~~~~~~~~~~~~~~~~~~~~");
+
 
   })
 
