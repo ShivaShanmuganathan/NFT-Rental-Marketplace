@@ -10,6 +10,7 @@ contract RentalMarket is ReentrancyGuard{
   using Counters for Counters.Counter;
   Counters.Counter private _itemIds;
   Counters.Counter private _itemsRented;
+  Counters.Counter private _itemsPaidBack;
   
   address payable owner;
   uint256 listingPrice = 0.005 ether;
@@ -113,6 +114,37 @@ contract RentalMarket is ReentrancyGuard{
       _itemsRented.increment();
       
   }
+
+  function finishRenting(uint256 itemId) external nonReentrant{
+        
+        MarketItem storage _rental = idToMarketItem[itemId];
+        
+        require(
+            msg.sender == _rental.renter ||
+                block.timestamp >= _rental.expiresAt,
+            "RentableNFT: this token is rented"
+        );
+        
+        _rental.isActive = false;
+        (bool success, ) = (_rental.NFTContract).call(
+              abi.encodeWithSignature("modifyRental(bool,uint256)", false, _rental.tokenId)
+        );
+        require(success);
+
+        (bool success2, ) = (_rental.NFTContract).call(
+              abi.encodeWithSignature("performTokenTransfer(address,address,uint256)", _rental.renter, _rental.seller, _rental.tokenId)
+        );
+        require(success2);
+
+        console.log("Renter Address From Contract-> ", _rental.renter);
+        console.log("Seller Address From Contract-> ", _rental.seller);
+        
+        _rental.renter = address(0);
+        _itemsPaidBack.increment();
+        
+
+    }
+
 
 
   

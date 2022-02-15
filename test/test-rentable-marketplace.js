@@ -62,6 +62,36 @@ describe("NFTMarket", function() {
       nft.connect(renterAddress).transferFrom(renterAddress.address, guyAddress.address, 1)
     ).to.be.revertedWith('RentableNFT: this token is rented')
 
+    await expect (market.connect(buyerAddress).finishRenting(1)).to.be.revertedWith('RentableNFT: this token is rented')
+    
+    
+    await expect(market.connect(guyAddress).createMarketItem(nftContractAddress, 4, auctionPrice, expiresAt, { value: listingPrice })).to.be.revertedWith('ERC721: transfer of token that is not own')
+    
+    
+    console.log("~~~~~~~~~~~~~~~~~~~~~~~ USER CAN PAYBACK THE RENTED NFT ~~~~~~~~~~~~~~~~~~~~~~~")
+    console.log();
+    console.log("~~~~~~~~~~~~~~~~~~~~~~~ EARLY FINISH ~~~~~~~~~~~~~~~~~~~~~~~")
+    console.log("NFT 1 Owner Before-> ", await nft.ownerOf(1))
+    await market.connect(renterAddress).finishRenting(1)
+    await expect(market.connect(guyAddress).finishRenting(3)).to.be.reverted;
+    await market.connect(renterAddress2).finishRenting(3)
+    console.log("NFT 1 Owner After-> ", await nft.ownerOf(1))
+    console.log("MarketPlace Address-> ", marketAddress)
+    console.log();
+    
+    
+    await network.provider.send('evm_setNextBlockTimestamp', [expiresAt])
+
+    console.log("~~~~~~~~~~~~~~~~~~~~~~~ AFTER TIME ~~~~~~~~~~~~~~~~~~~~~~~")
+    console.log();
+    console.log("Second NFT Checking")
+    console.log("NFT 2 Owner Before-> ", await nft.ownerOf(2))
+    await market.connect(guyAddress).finishRenting(2)
+    console.log("NFT 2 Owner After-> ", await nft.ownerOf(2))
+    console.log("MarketPlace Address-> ", marketAddress)
+    console.log();
+    console.log("~~~~~~~~~~~~~~~~~~~~~~~ USER CAN PAYBACK THE RENTED NFT END ~~~~~~~~~~~~~~~~~~~~~~~")
+
 
   });
 });

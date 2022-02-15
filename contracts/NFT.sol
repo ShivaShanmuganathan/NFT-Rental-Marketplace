@@ -35,6 +35,17 @@ contract NFT is ERC721URIStorage {
         rental[tokenId] = value;
 
     }
+    
+    function performTokenTransfer(
+        address from,
+        address to,
+        uint256 tokenId
+    ) external onlyMarketPlace
+    {
+        
+        _transfer(from, to, tokenId);
+
+    }
 
     function _beforeTokenTransfer(
         address from,
