@@ -2,11 +2,12 @@
 pragma solidity ^0.8.3;
 
 import "@openzeppelin/contracts/utils/Counters.sol";
-import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
+import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+
 import "hardhat/console.sol";
 
-contract RentalMarket is ReentrancyGuard{
+contract RentalMarket is ReentrancyGuard {
   using Counters for Counters.Counter;
   Counters.Counter private _itemIds;
   Counters.Counter private _itemsRented;
@@ -25,6 +26,7 @@ contract RentalMarket is ReentrancyGuard{
       address NFTContract;
       uint256 tokenId;
       address payable seller;
+      // address payable owner;
       address renter;
       uint256 price;
       uint256 expiresAt;
@@ -47,9 +49,9 @@ contract RentalMarket is ReentrancyGuard{
   function getListingPrice() public view returns (uint256) {
     return listingPrice;
   }
-
-  /* Places an item for rent on the marketplace */
-  function createMarketItem(address nftContract, uint256 tokenId, uint256 price, uint256 expiresAt ) public payable nonReentrant
+  
+  /* Places an item for sale on the marketplace */
+  function createMarketItem(address nftContract, uint256 tokenId, uint256 price, uint256 expiresAt ) public payable nonReentrant 
   {
     
     require(price > 0, "Price must be at least 1 wei");
@@ -85,7 +87,6 @@ contract RentalMarket is ReentrancyGuard{
     );
 
   }
-
 
   /* Renters can use this function to rent the listed NFT in the marketplace */
   /* Transfers ownership of the NFT, as well as funds between parties */
@@ -145,8 +146,47 @@ contract RentalMarket is ReentrancyGuard{
 
     }
 
+    // NftOwner claims nft
+    function tokenOwnerClaimsNFT(uint256 itemId) external nonReentrant{ 
 
+      MarketItem storage _rental = idToMarketItem[itemId];
+        
+      require(
+          msg.sender == _rental.seller &&
+              _rental.isActive == false,
+          "RentableNFT: this token is rented"
+      );
+      
 
-  
-  
+      require(IERC721(_rental.NFTContract).ownerOf(_rental.tokenId) == address(this), "MarketPlace Does Not Own This NFT");
+      IERC721(_rental.NFTContract).transferFrom(address(this), msg.sender, _rental.tokenId);
+    }
+
+    // NftOwner Modifies nftDetails
+    function tokenOwnerModifiesNFT(uint256 itemId, uint256 price, uint256 expiresAt) external payable nonReentrant{ 
+
+      MarketItem storage _rental = idToMarketItem[itemId];
+
+      console.log("Time Now in Contract", block.timestamp);
+      console.log("Expiry Time ", expiresAt);
+      
+      require(IERC721(_rental.NFTContract).ownerOf(_rental.tokenId) == address(this), "MarketPlace Does Not Own This NFT");  
+
+      require(
+          msg.sender == _rental.seller &&
+              _rental.isActive == false,
+          "RentableNFT: this token is rented"
+      );
+      require(block.timestamp >= _rental.expiresAt, "rental is not expired yet" );
+      require(expiresAt > block.timestamp, "Time is lower than current time" );
+      require(price > 0, "Price must be at least 1 wei");
+      // console.log("Listing Price From Contract", listingPrice/2);
+      require(msg.value == listingPrice/2, "Price must be equal to listing price");
+
+      _rental.expiresAt = expiresAt;
+      _rental.price = price;
+      _itemsRented.increment();
+      
+    }
+
 }

@@ -16,7 +16,7 @@ contract NFT is ERC721URIStorage {
     // tokenId to Rent Status
     mapping (uint256 => bool) public rental;
 
-    constructor(address marketplaceAddress) ERC721("RentableNFT", "RFT") {
+    constructor(address marketplaceAddress) ERC721("Metaverse", "METT") {
         contractAddress = marketplaceAddress;
     }
 
@@ -30,12 +30,12 @@ contract NFT is ERC721URIStorage {
         return newItemId;
     }
 
-    function modifyRental(bool value, uint256 tokenId) external onlyMarketPlace{
+    function modifyRental(bool value, uint256 tokenId) external onlyMarketPlace {
         
         rental[tokenId] = value;
 
     }
-    
+
     function performTokenTransfer(
         address from,
         address to,
@@ -57,6 +57,7 @@ contract NFT is ERC721URIStorage {
         super._beforeTokenTransfer(from, to, tokenId);
     }
 
+   
     modifier onlyMarketPlace() {
         
         require(msg.sender == contractAddress, "Caller must be contractAddress");
