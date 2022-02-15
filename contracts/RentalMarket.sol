@@ -4,7 +4,6 @@ pragma solidity ^0.8.3;
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
-
 import "hardhat/console.sol";
 
 contract RentalMarket is ReentrancyGuard {
@@ -26,7 +25,6 @@ contract RentalMarket is ReentrancyGuard {
       address NFTContract;
       uint256 tokenId;
       address payable seller;
-      // address payable owner;
       address renter;
       uint256 price;
       uint256 expiresAt;
@@ -48,6 +46,10 @@ contract RentalMarket is ReentrancyGuard {
   /* Returns the listing price of the contract */
   function getListingPrice() public view returns (uint256) {
     return listingPrice;
+  }
+
+  function setListingPrice(uint256 _listingPrice) external onlyOwner{
+    listingPrice = _listingPrice ;
   }
   
   /* Places an item for sale on the marketplace */
@@ -187,6 +189,13 @@ contract RentalMarket is ReentrancyGuard {
       _rental.price = price;
       _itemsRented.increment();
       
+    }
+
+    modifier onlyOwner() {
+        
+        require(msg.sender == owner, "Only Owner Can Access This Function");
+        _;
+
     }
 
 }
