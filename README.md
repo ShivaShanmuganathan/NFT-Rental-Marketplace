@@ -1,6 +1,8 @@
 # NFT Rental Marketplace
+
 ![alt text](rental_marketplace_poster.JPG)
 ![alt text](rental_poster.JPG)
+
 ## How Does It Work?
 
 When an owner lists a NFT for rent in the Marketplace, the ownership of the item will be transferred from the owner to the marketplace.
