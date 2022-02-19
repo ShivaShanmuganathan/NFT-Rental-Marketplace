@@ -43,6 +43,7 @@ async function main() {
     // await nft.connect(buyerAddress).createToken("https://www.rd.com/wp-content/uploads/2021/03/GettyImages-1133605325-scaled-e1617227898456.jpg")
     // await market.connect(buyerAddress).createMarketItem(nftContractAddress, 1, auctionPrice, expiresAt, { value: listingPrice })
     // console.log("Created & Uploaded Token 1");
+    
 }
 
 // We recommend this pattern to be able to use async/await everywhere

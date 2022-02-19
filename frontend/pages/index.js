@@ -19,7 +19,8 @@ export default function Home() {
   }, [])
   async function loadNFTs() {
     /* create a generic provider and query for unsold market items */
-    const provider = new ethers.providers.JsonRpcProvider()
+    // const provider = new ethers.providers.JsonRpcProvider()
+    const provider = new ethers.providers.JsonRpcProvider('https://rpc-mumbai.maticvigil.com/v1/a1bc762a38f412f3af976f545cd134df77c63626')
     const tokenContract = new ethers.Contract(nftaddress, NFT.abi, provider)
     const marketContract = new ethers.Contract(nftmarketaddress, Market.abi, provider)
     const data = await marketContract.fetchMarketItems();
@@ -35,7 +36,7 @@ export default function Home() {
       let price = ethers.utils.formatUnits(i.price.toString(), 'ether')
       let item = {
         price,
-        tokenId: i.tokenId.toNumber(),
+        itemId: i.itemId.toNumber(),
         seller: i.seller,
         renter: i.renter,
         image: meta.data.image,
@@ -54,10 +55,14 @@ export default function Home() {
     const provider = new ethers.providers.Web3Provider(connection)
     const signer = provider.getSigner()
     const contract = new ethers.Contract(nftmarketaddress, Market.abi, signer)
+    
 
     /* user will be prompted to pay the asking proces to complete the transaction */
     const price = ethers.utils.parseUnits(nft.price.toString(), 'ether')   
-    const transaction = await contract.rentMarketItem(nftaddress, nft.tokenId, {
+    console.log("Price Of NFT", price.toString());
+    console.log("Item ID",nft.itemId);
+    console.log("Rent Button Pressed!")
+    const transaction = await contract.rentMarketItem(nftaddress, nft.itemId, {
       value: price
     })
     await transaction.wait()

@@ -13,17 +13,40 @@ function Marketplace({ Component, pageProps }) {
               Home
             </a>
           </Link>
+          
           <Link href="/create-item">
             <a className="mr-6 text-pink-500">
-              Rent My NFTs
+              Create NFTs
             </a>
           </Link>
+
+          {/* <Link href="/rent-item">
+            <a className="mr-6 text-pink-500">
+              Rented NFTs
+            </a>
+          </Link> */}
+
+
           <Link href="/my-assets">
             <a className="mr-6 text-pink-500">
               My NFTs
             </a>
           </Link>
-          <Link href="/creator-dashboard">
+
+          <Link href="/my-rents">
+            <a className="mr-6 text-pink-500">
+              Rented NFTs
+            </a>
+          </Link>
+
+          {/* <Link href="/my-unclaimable">
+            <a className="mr-6 text-pink-500">
+              Unclaimable NFTs
+            </a>
+          </Link> */}
+
+
+          <Link href="/claimable-assets">
             <a className="mr-6 text-pink-500">
               Claimable NFTs
             </a>

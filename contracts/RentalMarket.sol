@@ -13,7 +13,7 @@ contract RentalMarket is ReentrancyGuard {
   Counters.Counter private _itemsPaidBack;
   
   address payable owner;
-  uint256 listingPrice = 0.005 ether;
+  uint256 listingPrice = 0.025 ether;
 
   constructor() {
     owner = payable(msg.sender);
@@ -249,25 +249,21 @@ contract RentalMarket is ReentrancyGuard {
     return items;
   }
 
-  function chummaFunction() public view returns(uint) {
-    return 10;
-  }
-
-  /* Returns items that can be claimed */
-  function fetchItemsClaimable() public view returns (MarketItem[] memory) {
+  /* Returns only items that a user rented*/
+  function fetchRentedNFTs() public view returns (MarketItem[] memory) {
     uint totalItemCount = _itemIds.current();
     uint itemCount = 0;
     uint currentIndex = 0;
 
     for (uint i = 0; i < totalItemCount; i++) {
-      if (idToMarketItem[i + 1].expiresAt <= block.timestamp) {
+      if (idToMarketItem[i + 1].renter == msg.sender) {
         itemCount += 1;
       }
     }
 
     MarketItem[] memory items = new MarketItem[](itemCount);
     for (uint i = 0; i < totalItemCount; i++) {
-      if (idToMarketItem[i + 1].expiresAt <= block.timestamp) {
+      if (idToMarketItem[i + 1].renter == msg.sender) {
         uint currentId = i + 1;
         MarketItem storage currentItem = idToMarketItem[currentId];
         items[currentIndex] = currentItem;
@@ -277,12 +273,69 @@ contract RentalMarket is ReentrancyGuard {
     return items;
   }
 
-    modifier onlyOwner() {
-        
-        require(msg.sender == owner, "Only Owner Can Access This Function");
-        _;
+  /* Returns items that can be claimed */
+  function fetchItemsClaimable() public view returns (MarketItem[] memory) {
+    uint totalItemCount = _itemIds.current();
+    uint itemCount = 0;
+    uint currentIndex = 0;
 
+
+    console.log("Time Now", block.timestamp);
+
+    for (uint i = 0; i < totalItemCount; i++) {
+      // Rent is Active && Time Has Crossed
+      if (idToMarketItem[i + 1].isActive && idToMarketItem[i + 1].expiresAt <= block.timestamp) {
+        itemCount += 1;
+      }
     }
+
+    MarketItem[] memory items = new MarketItem[](itemCount);
+    for (uint i = 0; i < totalItemCount; i++) {
+      if (idToMarketItem[i + 1].isActive && idToMarketItem[i + 1].expiresAt <= block.timestamp) {
+        uint currentId = i + 1;
+        MarketItem storage currentItem = idToMarketItem[currentId];
+        items[currentIndex] = currentItem;
+        currentIndex += 1;
+      }
+    }
+    return items;
+  }
+
+  
+  /* Returns items that can be claimed */
+  function fetchUnClaimedNFTs() public view returns (MarketItem[] memory) {
+    uint totalItemCount = _itemIds.current();
+    uint itemCount = 0;
+    uint currentIndex = 0;
+
+
+    console.log("Time Now", block.timestamp);
+
+    for (uint i = 0; i < totalItemCount; i++) {
+      // Rent is Active && Time Has Crossed
+      if (!idToMarketItem[i + 1].isActive) {
+        itemCount += 1;
+      }
+    }
+
+    MarketItem[] memory items = new MarketItem[](itemCount);
+    for (uint i = 0; i < totalItemCount; i++) {
+      if (!idToMarketItem[i + 1].isActive) {
+        uint currentId = i + 1;
+        MarketItem storage currentItem = idToMarketItem[currentId];
+        items[currentIndex] = currentItem;
+        currentIndex += 1;
+      }
+    }
+    return items;
+  }
+
+  modifier onlyOwner() {
+      
+      require(msg.sender == owner, "Only Owner Can Access This Function");
+      _;
+
+  }
 
 
 
