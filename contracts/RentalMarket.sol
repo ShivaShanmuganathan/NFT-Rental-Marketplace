@@ -152,50 +152,7 @@ contract RentalMarket is ReentrancyGuard {
 
     }
 
-    // NftOwner claims nft
-    // function tokenOwnerClaimsNFT(uint256 itemId) external nonReentrant{ 
-
-    //   MarketItem storage _rental = idToMarketItem[itemId];
-        
-    //   require(
-    //       msg.sender == _rental.seller &&
-    //           _rental.isActive == false,
-    //       "RentableNFT: this token is rented"
-    //   );
-      
-
-    //   require(IERC721(_rental.NFTContract).ownerOf(_rental.tokenId) == address(this), "MarketPlace Does Not Own This NFT");
-    //   IERC721(_rental.NFTContract).transferFrom(address(this), msg.sender, _rental.tokenId);
-    // }
-
-    // // NftOwner Modifies nftDetails
-    // function tokenOwnerModifiesNFT(uint256 itemId, uint256 price, uint256 expiresAt) external payable nonReentrant{ 
-
-    //   MarketItem storage _rental = idToMarketItem[itemId];
-
-    //   console.log("Time Now in Contract", block.timestamp);
-    //   console.log("Expiry Time ", expiresAt);
-      
-    //   require(IERC721(_rental.NFTContract).ownerOf(_rental.tokenId) == address(this), "MarketPlace Does Not Own This NFT");  
-
-    //   require(
-    //       msg.sender == _rental.seller &&
-    //           _rental.isActive == false,
-    //       "RentableNFT: this token is rented"
-    //   );
-    //   require(block.timestamp >= _rental.expiresAt, "rental is not expired yet" );
-    //   require(expiresAt > block.timestamp, "Time is lower than current time" );
-    //   require(price > 0, "Price must be at least 1 wei");
-    //   // console.log("Listing Price From Contract", listingPrice/2);
-    //   require(msg.value == listingPrice/2, "Price must be equal to listing price");
-
-    //   _rental.expiresAt = expiresAt;
-    //   _rental.price = price;
-    //   _rental.renter = address(0);
-    //   _itemIds.increment();
-      
-    // }
-
+    
   
   /* Returns all items listed for rent in market items */
   function fetchMarketItems() public view returns (MarketItem[] memory) {
@@ -203,10 +160,6 @@ contract RentalMarket is ReentrancyGuard {
     uint unsoldItemCount = _itemIds.current() - _itemsRented.current();
     uint currentIndex = 0;
     
-    // console.log("item Count", itemCount);
-    // console.log("item Rented", _itemsRented.current());
-    // console.log("unsoldItemCount ",unsoldItemCount);
-
     MarketItem[] memory items = new MarketItem[](unsoldItemCount);
     console.log("Address Zero",address(0));
     for (uint i = 0; i < itemCount; i++) {

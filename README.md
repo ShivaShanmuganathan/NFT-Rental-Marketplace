@@ -1,7 +1,9 @@
-# NFT Rental Marketplace
-
-![alt text](rental_marketplace_poster.JPG)
+# [NFT Rental Marketplace](https://nft-rental-marketplace.netlify.app/) 
+![alt text](rental_poster1.JPG)
 ![alt text](rental_poster.JPG)
+
+## Check Out [Live Site](https://nft-rental-marketplace.netlify.app/) - {Deployed Polygon Testnet}
+
 
 ## How Does It Work?
 
@@ -49,4 +51,12 @@ npm install
 npx hardhat compile
 npx hardhat test
 
+```
+
+### Run The frontend
+
+``` shell
+cd frontend
+npm install
+npm run dev
 ```
