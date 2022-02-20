@@ -2,7 +2,9 @@
 ![alt text](rental_poster1.JPG)
 ![alt text](rental_poster.JPG)
 
-## Check Out [Live Site](https://nft-rental-marketplace.netlify.app/) - {Deployed Polygon Testnet}
+## [Rent It Out](https://nft-rental-marketplace.netlify.app) ⏩ [Live Site](https://nft-rental-marketplace.netlify.app/) - {This Project Is Deployed On [Polygon Testnet](https://faucet.polygon.technology/)}
+
+
 
 
 ## How Does It Work?
