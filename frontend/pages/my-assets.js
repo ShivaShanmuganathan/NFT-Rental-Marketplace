@@ -40,8 +40,10 @@ export default function MyAssets() {
         price,
         itemId: i.itemId.toNumber(),
         time,
+        time2: i.expiresAt.toNumber()/60,
         seller: i.seller,
-        owner: i.owner,
+        renter: i.renter,
+        isActive: i.isActive.toString(),
         image: meta.data.image,
       }
       return item
@@ -55,15 +57,42 @@ export default function MyAssets() {
       <div className="p-4">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4">
           {
-            nfts.map((nft, i) => (
-              <div key={i} className="border shadow rounded-xl overflow-hidden">
-                <img src={nft.image} className="rounded" />
-                <div className="p-4 bg-black">
-                  <p className="text-2xl font-bold text-white">Price - {nft.price} Eth</p>
-                  <p className="text-2xl font-bold text-white">Expires In {nft.time} Seconds</p>
-                </div>
-              </div>
-            ))
+            nfts.map((nft, i) => {
+              if (nft.isActive == true){
+
+                return(
+                  <div key={i} className="border shadow rounded-xl overflow-hidden">
+                    <img src={nft.image} className="rounded" />
+    
+                      <div className="p-4 bg-black">
+                        <p className="text-2xl font-bold text-white">NFT is Rented</p>
+                        <p className="text-2xl font-bold text-white">Price: {nft.price} Eth</p>
+                        <p className="text-2xl font-bold text-white">Expires In {nft.time} Seconds</p>
+                      </div>
+            
+                  </div>
+                )
+
+              }
+              else {
+
+                return(
+                  <div key={i} className="border shadow rounded-xl overflow-hidden">
+                    <img src={nft.image} className="rounded" />
+    
+                      <div className="p-4 bg-black">
+                      <p className="text-2xl font-bold text-white">NFT is Listed in marketplace</p>
+                        <p className="text-2xl font-bold text-white">Price: {nft.price} Eth</p>
+                        <p className="text-2xl font-bold text-white">Duration {nft.time2} Minutes</p>
+                      </div>
+            
+                  </div>
+                )
+
+              }
+
+              
+          })
           }
         </div>
       </div>

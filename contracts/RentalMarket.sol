@@ -111,7 +111,7 @@ contract RentalMarket is ReentrancyGuard {
               abi.encodeWithSignature("modifyRental(bool,uint256)", true,tokenId)
       );      
       require(success);
-
+      idToMarketItem[itemId].expiresAt = idToMarketItem[itemId].expiresAt + block.timestamp;
       idToMarketItem[itemId].renter = msg.sender;
       idToMarketItem[itemId].isActive = true;
       _itemsRented.increment();

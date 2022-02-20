@@ -65,7 +65,7 @@ export default function CreateItem() {
     let tokenId = value.toNumber()
 
     const price = ethers.utils.parseUnits(formInput.price, 'ether')
-    const time = Math.floor(Date.now() / 1000 + (formInput.time * 60))
+    const time = (formInput.time * 60)
   
     /* then list the item for sale on the marketplace */
     contract = new ethers.Contract(nftmarketaddress, Market.abi, signer)
