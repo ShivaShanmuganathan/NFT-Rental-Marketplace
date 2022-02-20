@@ -39,13 +39,6 @@ function Marketplace({ Component, pageProps }) {
             </a>
           </Link>
 
-          {/* <Link href="/my-unclaimable">
-            <a className="mr-6 text-pink-500">
-              Unclaimable NFTs
-            </a>
-          </Link> */}
-
-
           <Link href="/claimable-assets">
             <a className="mr-6 text-pink-500">
               Claimable NFTs

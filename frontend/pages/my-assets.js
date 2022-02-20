@@ -34,7 +34,7 @@ export default function MyAssets() {
       const tokenUri = await tokenContract.tokenURI(i.tokenId)
       const meta = await axios.get(tokenUri)
       let price = ethers.utils.formatUnits(i.price.toString(), 'ether')
-      let time = (i.expiresAt - (Math.floor(Date.now() / 1000))).toString()
+      let time = (i.expiresAt - (Math.floor(Date.now() / 1000)))
     //   (i.expiresAt.toString())
       let item = {
         price,
@@ -51,6 +51,20 @@ export default function MyAssets() {
     setNfts(items)
     setLoadingState('loaded') 
   }
+  async function paybackNFT(nft) {
+    /* needs the user to sign the transaction, so will use Web3Provider and sign it */
+    const web3Modal = new Web3Modal()
+    const connection = await web3Modal.connect()
+    const provider = new ethers.providers.Web3Provider(connection)
+    const signer = provider.getSigner()
+    const contract = new ethers.Contract(nftmarketaddress, Market.abi, signer)
+    console.log("Item ID", nft.itemId)
+    const transaction = await contract.finishRenting(nft.itemId)
+    await transaction.wait()
+    loadNFTs()
+  }
+
+
   if (loadingState === 'loaded' && !nfts.length) return (<h1 className="py-10 px-20 text-3xl">No assets owned</h1>)
   return (
     <div className="flex justify-center">
@@ -58,7 +72,27 @@ export default function MyAssets() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4">
           {
             nfts.map((nft, i) => {
-              if (nft.isActive == true){
+              if (nft.isActive == "true"){
+
+                if(nft.time < 0){
+
+                  return(
+                    <div key={i} className="border shadow rounded-xl overflow-hidden">
+                      <img src={nft.image} className="rounded" />
+      
+                        <div className="p-4 bg-black">
+                          <p className="text-2xl font-bold text-white">NFT is Rented</p>
+                          <p className="text-2xl font-bold text-white">Price: {nft.price} Eth</p>
+                          <button className="w-full bg-pink-500 text-white font-bold py-2 px-12 rounded" onClick={() => paybackNFT(nft)}>Claim</button>
+                        </div>
+              
+                    </div>
+                  )
+
+                }
+                
+
+
 
                 return(
                   <div key={i} className="border shadow rounded-xl overflow-hidden">
@@ -75,13 +109,13 @@ export default function MyAssets() {
 
               }
               else {
-
+                
                 return(
                   <div key={i} className="border shadow rounded-xl overflow-hidden">
                     <img src={nft.image} className="rounded" />
     
                       <div className="p-4 bg-black">
-                      <p className="text-2xl font-bold text-white">NFT is Listed in marketplace</p>
+                        <p className="text-2xl font-bold text-white">NFT is Listed in marketplace</p>
                         <p className="text-2xl font-bold text-white">Price: {nft.price} Eth</p>
                         <p className="text-2xl font-bold text-white">Duration {nft.time2} Minutes</p>
                       </div>
