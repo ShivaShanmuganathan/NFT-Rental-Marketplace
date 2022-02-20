@@ -20,13 +20,6 @@ function Marketplace({ Component, pageProps }) {
             </a>
           </Link>
 
-          {/* <Link href="/rent-item">
-            <a className="mr-6 text-pink-500">
-              Rented NFTs
-            </a>
-          </Link> */}
-
-
           <Link href="/my-assets">
             <a className="mr-6 text-pink-500">
               My NFTs

@@ -118,7 +118,6 @@ contract RentalMarket is ReentrancyGuard {
       
   }
 
-
   /* Anyone can call this function to return the rented NFTs that have crossed expiry time */
   /* Transfers ownership of the NFT from renter to seller*/
   function finishRenting(uint256 itemId) external nonReentrant
