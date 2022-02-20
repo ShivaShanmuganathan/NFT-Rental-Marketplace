@@ -38,10 +38,10 @@ describe("NFT Rental Marketplace", function() {
     await nft.connect(buyerAddress).createToken("https://www.mytokenlocation3.com")
   
     
-    await market.connect(buyerAddress).createMarketItem(nftContractAddress, 1, auctionPrice, expiresAt, { value: listingPrice })
+    await market.connect(buyerAddress).createMarketItem(nftContractAddress, 1, auctionPrice, 100, { value: listingPrice })
     
-    await market.connect(buyerAddress).createMarketItem(nftContractAddress, 2, auctionPrice, expiresAt, { value: listingPrice })
-    await market.connect(buyerAddress).createMarketItem(nftContractAddress, 3, auctionPrice, expiresAt, { value: listingPrice })
+    await market.connect(buyerAddress).createMarketItem(nftContractAddress, 2, auctionPrice, 100, { value: listingPrice })
+    await market.connect(buyerAddress).createMarketItem(nftContractAddress, 3, auctionPrice, 100, { value: listingPrice })
     
     console.log("~~~~~~~~~~~~~~~~~~~~~~~ USER CAN LIST NFT FOR RENT IN MARKETPLACE ~~~~~~~~~~~~~~~~~~~~~~~")
     
@@ -61,7 +61,7 @@ describe("NFT Rental Marketplace", function() {
     await expect (market.connect(buyerAddress).finishRenting(1)).to.be.revertedWith('RentableNFT: this token is rented')
     
     
-    await expect(market.connect(guyAddress).createMarketItem(nftContractAddress, 4, auctionPrice, expiresAt, { value: listingPrice })).to.be.revertedWith('ERC721: transfer of token that is not own')
+    await expect(market.connect(guyAddress).createMarketItem(nftContractAddress, 4, auctionPrice, 100, { value: listingPrice })).to.be.revertedWith('ERC721: transfer of token that is not own')
 
     await expect(nft.connect(renterAddress2).transferFrom(renterAddress2.address, guyAddress.address, 3)).to.be.reverted;
     console.log("Owner Of Token 3",await nft.connect(renterAddress2).ownerOf(3));
@@ -122,7 +122,7 @@ describe("NFT Rental Marketplace", function() {
 
     console.log("~~~~~~~~~~~~~~~~~~~~~~~ TESTING FETCH FUNCTIONS ~~~~~~~~~~~~~~~~~~~~~~~");
 
-    await market.connect(buyerAddress).createMarketItem(nftContractAddress, 4, auctionPrice, expiresAt, { value: listingPrice })
+    await market.connect(buyerAddress).createMarketItem(nftContractAddress, 4, auctionPrice, 100, { value: listingPrice })
     console.log("Returned Value For Fetch Function", await market.connect(buyerAddress).fetchMarketItems());
 
 
