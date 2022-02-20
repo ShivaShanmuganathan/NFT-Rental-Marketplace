@@ -46,11 +46,11 @@ describe("NFT Rental Marketplace", function() {
     
     console.log("~~~~~~~~~~~~~~~~~~~~~~~ USER CAN LIST NFT FOR RENT IN MARKETPLACE ~~~~~~~~~~~~~~~~~~~~~~~")
     
-    await market.connect(renterAddress).rentMarketItem(nftContractAddress, 1, { value: auctionPrice});
-    await market.connect(renterAddress).rentMarketItem(nftContractAddress, 2, { value: auctionPrice});
+    await market.connect(renterAddress).rentMarketItem(1, { value: auctionPrice});
+    await market.connect(renterAddress).rentMarketItem(2, { value: auctionPrice});
     console.log("NFT 3 Owner Before-> ", await nft.ownerOf(3))
     console.log("MarketPlace Address-> ", marketAddress)
-    await market.connect(renterAddress2).rentMarketItem(nftContractAddress, 3, { value: auctionPrice});
+    await market.connect(renterAddress2).rentMarketItem(3, { value: auctionPrice});
     
       
     console.log("~~~~~~~~~~~~~~~~~~~~~~~ USER CAN RENT FROM MARKETPLACE ~~~~~~~~~~~~~~~~~~~~~~~")

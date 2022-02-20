@@ -131,24 +131,22 @@ contract RentalMarket is ReentrancyGuard {
   /// @dev Transfers Renting Fee From Renter To Seller
   /// @dev Transfers ownership of the NFT to renter, as well as funds between parties.
   /// @dev Sets The Rental Status Of NFT to TRUE in NFT Contract. 
-  /// @param nftContract -> Contract Address of the NFT the user is listing in the marketplace
   /// @param itemId -> itemId of the NFT in the marketplace
   function rentMarketItem(
-    address nftContract,
     uint256 itemId
     ) public payable nonReentrant {
-
-      uint price = idToMarketItem[itemId].price;
-      uint tokenId = idToMarketItem[itemId].tokenId;
+      MarketItem storage _rental = idToMarketItem[itemId];
+      uint price = _rental.price;
+      uint tokenId = _rental.tokenId;
 
       require(msg.value == price, "Please submit the asking price in order to complete the purchase");
-      require(IERC721(nftContract).ownerOf(tokenId) == address(this), "This Token Is Not Available For Rent");
+      require(IERC721(_rental.NFTContract).ownerOf(tokenId) == address(this), "This Token Is Not Available For Rent");
       
-      idToMarketItem[itemId].seller.transfer(msg.value);
+      _rental.seller.transfer(msg.value);
       
-      IERC721(nftContract).transferFrom(address(this), msg.sender, tokenId);
+      IERC721(_rental.NFTContract).transferFrom(address(this), msg.sender, tokenId);
       
-      (bool success, ) = nftContract.call(
+      (bool success, ) = _rental.NFTContract.call(
               abi.encodeWithSignature("modifyRental(bool,uint256)", true,tokenId)
       );      
       require(success);

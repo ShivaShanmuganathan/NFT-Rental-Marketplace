@@ -27,12 +27,10 @@ contract NFT is ERC721URIStorage {
     // tokenId to Rent Status
     mapping (uint256 => bool) public rental;
 
-  // Data is passed in to the contract when it iss first created initializing the contractAddress.
-  // We would be passing these values in from deploy.js.
-  
-  /// @notice Constructor function initializes the contractAddress of NFT Rental Marketplace
-  /// @dev contractAddress is set in constructor, so that we will be able to use it in modifier for verifying the sender of transaction
-  /// @param contractAddress -> Address of NFT Rental Marketplace
+    
+    /// @notice Constructor function initializes the address of NFT Rental Marketplace Contract
+    /// @dev contractAddress is set in constructor, so that we will be able to use it in modifier for verifying the sender of transaction
+    /// @param marketplaceAddress -> Address of NFT Rental Marketplace
     constructor(address marketplaceAddress) ERC721("RentableNFT", "RFT") {
         contractAddress = marketplaceAddress;
     }
