@@ -1,4 +1,4 @@
-# [NFT Rental Marketplace](https://nft-rental-marketplace.netlify.app/) 
+# [NFT Rental Marketplace - Collateral Free](https://nft-rental-marketplace.netlify.app/) 
 ![alt text](rental_poster1.JPG)
 ![alt text](rental_poster.JPG)
 
