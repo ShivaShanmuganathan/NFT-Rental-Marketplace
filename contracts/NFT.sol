@@ -11,9 +11,9 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 // Makes Debugging Easy
 import "hardhat/console.sol";
 
-// @title NFT Rental Marketplace
+// @title NFT 
 /// @author Shiva Shanmuganathan
-/// @notice You can use this contract for implementing a simple NFT contract for Rental NFT Marketplace 
+/// @notice This contract implements a simple NFT contract for the NFT Rental Marketplace 
 /// @dev All function calls are currently implemented without any bugs
 contract NFT is ERC721URIStorage {
     

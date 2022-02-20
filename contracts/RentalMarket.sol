@@ -1,24 +1,42 @@
 // SPDX-License-Identifier: MIT OR Apache-2.0
 pragma solidity ^0.8.3;
 
+// OpenZeppelin Helper Contracts For Counters & Reentrancy Guard
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
+
+// NFT contract to inherit from.
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+
+// Makes Debugging Easy
 import "hardhat/console.sol";
 
+// @title Rental Market
+/// @author Shiva Shanmuganathan
+/// @notice This contract implements a NFT Rental Marketplace without taking any collateral from the renter
+/// @dev All function calls are currently implemented without any bugs
 contract RentalMarket is ReentrancyGuard {
+
+  // We will use counters for tracking itemIds, itemsRented & itemsPaidBack
   using Counters for Counters.Counter;
   Counters.Counter private _itemIds;
   Counters.Counter private _itemsRented;
   Counters.Counter private _itemsPaidBack;
   
+  // Address of Contract Owner
   address payable owner;
+
+  // listingPrice -> Price The Seller Needs To Pay For Listing In This NFT Rental Marketplace 
   uint256 listingPrice = 0.025 ether;
 
+
+  /// @notice Constructor function initializes the owner of the contract
+  /// @dev The contract deployer is assigned as the owner of the contract. The address of owner is stored as payable to enable owner to receive the ether stored in contract
   constructor() {
     owner = payable(msg.sender);
   }
 
+  // MarketItem Struct Is Used To Track Details Of NFTs Listed
   struct MarketItem {
       uint itemId;
       bool isActive;
@@ -30,8 +48,11 @@ contract RentalMarket is ReentrancyGuard {
       uint256 expiresAt;
     }
   
+  // A mapping from an itemId => MarketItem Struct. 
+  // Store the tokenId of the listed NFT item and reference it later.
   mapping(uint256 => MarketItem) private idToMarketItem;
 
+  // Event To Show NFT Item has been listed in the marketplace 
   event MarketItemCreated (
     uint indexed itemId,
     bool isActive,
@@ -43,16 +64,29 @@ contract RentalMarket is ReentrancyGuard {
     uint256 expiresAt
   );
 
-  /* Returns the listing price of the contract */
+  /// @notice View Listing Fee to list the NFTs
+  /// @dev public view function to return the listing fee of the contract
+  /// @return listingPrice - returns the listing price of the contract
   function getListingPrice() public view returns (uint256) {
     return listingPrice;
   }
 
+  /// @notice Set Listing Fee of the contract
+  /// @dev Only Owner of the contract will be able to access this function to set the listing fee of the contract
+  /// OnlyOwner ensures that only the owner of the contract will be able to access this function.
   function setListingPrice(uint256 _listingPrice) external onlyOwner{
     listingPrice = _listingPrice ;
   }
   
-  /* Places an item for rent on the marketplace */
+  /// @notice List the NFT in the marketplace by paying listing fee and sending all input parameters
+  /// @dev Lists the NFT in the marketplace by creating itemId, marketItem struct and creating a mapping between the two. 
+  /// @dev NFT is transferred from the owner to the marketplace. 
+  /// @dev Payable Function To Receive The Lisiting Fees. 
+  /// @dev nonReentrant is used to prevent reentrancy attack
+  /// @param nftContract -> Contract Address of the NFT the user is listing in the marketplace
+  /// @param tokenId -> tokenId of the NFT in the NFT Contract
+  /// @param price -> The price the renter needs to pay to rent the NFT for the rental duration
+  /// @param expiresAt -> Time in seconds, to set the rental duration of the NFT
   function createMarketItem(address nftContract, uint256 tokenId, uint256 price, uint256 expiresAt ) public payable nonReentrant 
   {
     
@@ -90,8 +124,15 @@ contract RentalMarket is ReentrancyGuard {
 
   }
 
-  /* Renters can use this function to rent the listed NFT in the marketplace */
-  /* Transfers ownership of the NFT, as well as funds between parties */
+  
+  /// @notice Renters can use this function to rent NFTs listed in the marketplace
+  /// @dev Payable Function To Receive The Renting Fee Of NFT
+  /// @dev nonReentrant is used to prevent reentrancy attack
+  /// @dev Transfers Renting Fee From Renter To Seller
+  /// @dev Transfers ownership of the NFT to renter, as well as funds between parties.
+  /// @dev Sets The Rental Status Of NFT to TRUE in NFT Contract. 
+  /// @param nftContract -> Contract Address of the NFT the user is listing in the marketplace
+  /// @param itemId -> itemId of the NFT in the marketplace
   function rentMarketItem(
     address nftContract,
     uint256 itemId
@@ -118,8 +159,13 @@ contract RentalMarket is ReentrancyGuard {
       
   }
 
-  /* Anyone can call this function to return the rented NFTs that have crossed expiry time */
-  /* Transfers ownership of the NFT from renter to seller*/
+  /// @notice Anyone can call this function to return the rented NFTs that have crossed expiry time 
+  /// @dev Transfers ownership of the NFT from renter to seller
+  /// @dev nonReentrant is used to prevent reentrancy attack
+  /// @dev Sets The Rental Status Of NFT to FALSE in NFT Contract
+  /// @dev Performs Transfer of NFT From Renter To Seller
+  /// @dev Deletes The MarketItem from The Mapping, thus delisting the NFT from the marketplace
+  /// @param itemId -> itemId of the NFT in the marketplace
   function finishRenting(uint256 itemId) external nonReentrant
   {
         
@@ -153,8 +199,9 @@ contract RentalMarket is ReentrancyGuard {
     }
 
     
-  
-  /* Returns all items listed for rent in market items */
+  /// @notice Returns all items listed for rent in marketplace 
+  /// @dev View function that loops through all listed items in the marketplace, and returns that in an arrray
+  /// @return MarketItem Array -> Array of all items listed in the marketplace
   function fetchMarketItems() public view returns (MarketItem[] memory) {
     uint itemCount = _itemIds.current();
     uint unsoldItemCount = _itemIds.current() - _itemsRented.current();
@@ -181,7 +228,9 @@ contract RentalMarket is ReentrancyGuard {
     return items;
   }
 
-  /* Returns only items that a user owns*/
+  /// @notice Returns only items that a user owns
+  /// @dev View function that loops through all listed items in the marketplace, and returns an arrray of items where user is the seller
+  /// @return MarketItem Array -> An arrray of items where user is the seller
   function fetchMyNFTs() public view returns (MarketItem[] memory) {
     uint totalItemCount = _itemIds.current();
     uint itemCount = 0;
@@ -205,7 +254,9 @@ contract RentalMarket is ReentrancyGuard {
     return items;
   }
 
-  /* Returns only items that a user has rented*/
+  /// @notice Returns only items that a user has rented
+  /// @dev View function that loops through all listed items in the marketplace, and returns an arrray of items where user is the renter
+  /// @return MarketItem Array -> An arrray of items where user is the renter
   function fetchRentedNFTs() public view returns (MarketItem[] memory) {
     uint totalItemCount = _itemIds.current();
     uint itemCount = 0;
@@ -229,7 +280,9 @@ contract RentalMarket is ReentrancyGuard {
     return items;
   }
 
-  /* Returns items that can be claimed */
+  /// @notice Returns only items that is past the rental duration
+  /// @dev View function that loops through all listed items in the marketplace, and returns an arrray of items where the item has crossed the rental duration
+  /// @return MarketItem Array -> An arrray of items where the item has crossed the rental duration
   function fetchItemsClaimable() public view returns (MarketItem[] memory) {
     uint totalItemCount = _itemIds.current();
     uint itemCount = 0;
@@ -256,7 +309,9 @@ contract RentalMarket is ReentrancyGuard {
     }
     return items;
   }
-
+  
+  /// @notice Modifier Used To Restrict Access Of Certain Functions Only To Owner
+  /// @dev Function Caller is checked against the owner of the contract  
   modifier onlyOwner() {
       
       require(msg.sender == owner, "Only Owner Can Access This Function");
