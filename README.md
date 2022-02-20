@@ -22,8 +22,7 @@ Marketplace Contract - This contract allows NFT owners to put their digital asse
 1. Anyone who has created a ERC721 contract with additional functions similar to NFT.sol can list their NFTs for Rent in the Marketplace.
 2. Anyone can rent the NFTs listed in the marketplace by paying rent.
 3. The Renter will not be able to transfer the NFT to anyone, because the NFT.sol contract prevents the token transfer while it is on rent.
-4. Finish Renting function will enable anyone to end the renting process, and return the NFT to Marketplace. 
-5. After NFT is returned to Marketplace, the Owner of NFT can either choose to withdraw NFT from marketplace or rent it again by paying half of listing fees and modify the Rental Details. 
+4. Finish Renting function will enable anyone to end the renting process, and return the NFT to Seller. 
 
 
 ## Clone This Project & Play Around
