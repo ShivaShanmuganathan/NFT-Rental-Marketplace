@@ -52,7 +52,7 @@ contract RentalMarket is ReentrancyGuard {
     listingPrice = _listingPrice ;
   }
   
-  /* Places an item for sale on the marketplace */
+  /* Places an item for rent on the marketplace */
   function createMarketItem(address nftContract, uint256 tokenId, uint256 price, uint256 expiresAt ) public payable nonReentrant 
   {
     
@@ -118,6 +118,9 @@ contract RentalMarket is ReentrancyGuard {
       
   }
 
+
+  /* Anyone can call this function to return the rented NFTs that have crossed expiry time */
+  /* Transfers ownership of the NFT from renter to seller*/
   function finishRenting(uint256 itemId) external nonReentrant
   {
         
@@ -194,6 +197,7 @@ contract RentalMarket is ReentrancyGuard {
       
     // }
 
+  
   /* Returns all items listed for rent in market items */
   function fetchMarketItems() public view returns (MarketItem[] memory) {
     uint itemCount = _itemIds.current();
@@ -249,7 +253,7 @@ contract RentalMarket is ReentrancyGuard {
     return items;
   }
 
-  /* Returns only items that a user rented*/
+  /* Returns only items that a user has rented*/
   function fetchRentedNFTs() public view returns (MarketItem[] memory) {
     uint totalItemCount = _itemIds.current();
     uint itemCount = 0;
@@ -300,7 +304,6 @@ contract RentalMarket is ReentrancyGuard {
     }
     return items;
   }
-
 
   modifier onlyOwner() {
       
