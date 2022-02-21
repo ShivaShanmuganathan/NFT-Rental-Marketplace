@@ -2,11 +2,7 @@
 
 ## [Check It Out](https://nft-rental-marketplace.netlify.app) ⏩ [nft-rental-marketplace.netlify.app](https://nft-rental-marketplace.netlify.app/) 
 
-![alt text](capture.jpeg)
-
 ## Project Description
-
-
 
 ### Fullstack NFT Rental Marketplace Dapp ✨Collateral Free Renting✨
 
@@ -14,6 +10,8 @@
 - Anyone can rent the NFT from the Rental Marketplace by paying the rental price.
 - The Renter will not be able to transfer the rented NFT to anyone. 
 - After the end of the rental duration, either the renter, owner or anyone can call finishRenting function to transfer the NFT from Renter to the NFT Owner.
+
+![alt text](capture.jpeg)
 
 ![alt text](rental_poster1.JPG)
 
