@@ -18,8 +18,9 @@
 ![alt text](rental_poster1.JPG)
 
 
-<details>
-<summary style="font-size:20px;">Working Explained In Detail</summary>
+<details> 
+  <summary> Working Explained In Detail </summary>
+  <h2> Working Explained In Detail </h2>
 
 - Anyone who has created a ERC721 contract with additional functions similar to NFT.sol can list their NFTs for Rent in the Marketplace.
 - When an owner lists a NFT for rent in the Marketplace, the ownership of the item will be transferred from the owner to the marketplace.
@@ -28,9 +29,10 @@
 - The Renter will not be able to transfer the NFT to anyone, because the NFT.sol contract prevents the token transfer while it is on rent.
 - Finish Renting function will enable anyone to end the renting process, and return the NFT to the NFT Owner. 
 
-<pre>
-The marketplace owner will be able to set a listing fee. This fee will be paid by the NFT owner when listing NFT in the renal marketplace, and transferred to the contract owner, enabling the owner of the marketplace to earn recurring revenue from any listing transacted in the marketplace.
-</pre>
+
+<strong> The marketplace owner will be able to set a listing fee. This fee will be paid by the NFT owner when listing NFT in the renal marketplace, and transferred to the contract owner, enabling the owner of the marketplace to earn recurring revenue from any listing transacted in the marketplace. </strong>
+
+ 
 </details>
 
 ![alt text](rental_poster.JPG)  
