@@ -35,11 +35,6 @@
 
 ![alt text](rental_poster.JPG)  
 
-## Directory Structure
-- `contracts` ⏩ NFT Rental Marketplace and NFT Smart contracts that are deployed in the Polygon Mumbai Test Network.
-- `test` ⏩ Tests for Smart Contracts.
-- `frontend` ⏩ Project's [NextJS Frontend](https://github.com/ShivaShanmuganathan/rental-marketplace-frontend)
-
 ## About Contracts
 
 #### This Project Is Deployed On [Polygon Mumbai Testnet [Check Out The Contract At]](https://mumbai.polygonscan.com/address/0x545f40130d0e93bc53f5f496079e4e6a4a0327d7)
@@ -60,6 +55,9 @@ This project consists of two smart contracts:
 - Rented NFTs - Users can view the NFTs they have rented
 - Claimable NFTs - Users can view all NFTs that is past the rental duration
 
+## Directory Structure
+- `contracts` ⏩ NFT Rental Marketplace and NFT Smart contracts that are deployed in the Polygon Mumbai Test Network.
+- `test` ⏩ Tests for Smart Contracts.
 
 ## How To Run This Project Locally
 
