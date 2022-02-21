@@ -50,6 +50,16 @@ This project consists of two smart contracts:
 
 - Marketplace Contract - This contract allows NFT owners to put their digital assets for rent on an open market.
 
+## [About Frontend](https://github.com/ShivaShanmuganathan/rental-marketplace-frontend)
+
+### This project consists of five pages
+
+- Home - Displays all NFTs listed for rent in the rental marketplace
+- Create NFTs - Users can create their own NFTs by filling all the details in this page
+- My NFTs - Users can view the NFTs they have created
+- Rented NFTs - Users can view the NFTs they have rented
+- Claimable NFTs - Users can view all NFTs that is past the rental duration
+
 
 ## How To Run This Project Locally
 
