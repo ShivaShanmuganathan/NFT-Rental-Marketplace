@@ -1,36 +1,57 @@
-# [NFT Rental Marketplace - Collateral Free](https://nft-rental-marketplace.netlify.app/) 
+# NFT Rental Marketplace ✨Collateral Free Renting✨
+
+## [Check It Out](https://nft-rental-marketplace.netlify.app) ⏩ [nft-rental-marketplace.netlify.app](https://nft-rental-marketplace.netlify.app/) 
+
+![alt text](capture.jpeg)
+
+## Project Description
+
+
+
+### Fullstack NFT Rental Marketplace Dapp ✨Collateral Free Renting✨
+
+- NFT Owners can rent their NFT by specifying the name, description, rental duration, and rental price. 
+- Anyone can rent the NFT from the Rental Marketplace by paying the rental price.
+- The Renter will not be able to transfer the rented NFT to anyone. 
+- After the end of the rental duration, either the renter, owner or anyone can call finishRenting function to transfer the NFT from Renter to the NFT Owner.
+
 ![alt text](rental_poster1.JPG)
-![alt text](rental_poster.JPG)
-
-## [Rent It Out](https://nft-rental-marketplace.netlify.app) ⏩ [Live Site](https://nft-rental-marketplace.netlify.app/) - {This Project Is Deployed On [Polygon Testnet](https://faucet.polygon.technology/)}
 
 
+<details>
+<summary style="font-size:20px;">Working Explained In Detail</summary>
 
+- Anyone who has created a ERC721 contract with additional functions similar to NFT.sol can list their NFTs for Rent in the Marketplace.
+- When an owner lists a NFT for rent in the Marketplace, the ownership of the item will be transferred from the owner to the marketplace.
+- Anyone can rent the NFTs listed in the marketplace by paying rent.
+- When a user rents a NFT, the rental price will be transferred from the buyer to the seller and the NFT will be transferred from the marketplace to the renter.
+- The Renter will not be able to transfer the NFT to anyone, because the NFT.sol contract prevents the token transfer while it is on rent.
+- Finish Renting function will enable anyone to end the renting process, and return the NFT to the NFT Owner. 
 
-## How Does It Work?
+<pre>
+The marketplace owner will be able to set a listing fee. This fee will be paid by the NFT owner when listing NFT in the renal marketplace, and transferred to the contract owner, enabling the owner of the marketplace to earn recurring revenue from any listing transacted in the marketplace.
+</pre>
+</details>
 
-When an owner lists a NFT for rent in the Marketplace, the ownership of the item will be transferred from the owner to the marketplace.
+![alt text](rental_poster.JPG)  
 
-When a user rents a NFT, the rental price will be transferred from the buyer to the seller and the NFT will be transferred from the marketplace to the renter.
-
-The marketplace owner will be able to set a listing fee. This fee will be taken from the seller and transferred to the contract owner, enabling the owner of the marketplace to earn recurring revenue from any listing transacted in the marketplace.
+## Directory Structure
+- `contracts` ⏩ NFT Rental Marketplace and NFT Smart contracts that are deployed in the Polygon Mumbai Test Network.
+- `test` ⏩ Tests for Smart Contracts.
+- `frontend` ⏩ Project's [NextJS Frontend](https://github.com/ShivaShanmuganathan/rental-marketplace-frontend)
 
 ## About Contracts
-The marketplace logic will consist of two smart contracts:
 
-NFT Contract - This contract allows users to mint unique digital assets.
+#### This Project Is Deployed On [Polygon Mumbai Testnet [Check Out The Contract At]](https://mumbai.polygonscan.com/address/0x545f40130d0e93bc53f5f496079e4e6a4a0327d7)
 
-Marketplace Contract - This contract allows NFT owners to put their digital assets for rent on an open market.
+This project consists of two smart contracts:
 
-## Working Explained In Detail
-1. Anyone who has created a ERC721 contract with additional functions similar to NFT.sol can list their NFTs for Rent in the Marketplace.
-2. Anyone can rent the NFTs listed in the marketplace by paying rent.
-3. The Renter will not be able to transfer the NFT to anyone, because the NFT.sol contract prevents the token transfer while it is on rent.
-4. Finish Renting function will enable anyone to end the renting process, and return the NFT to Seller. 
+- NFT Contract - This contract allows users to mint unique digital assets.
+
+- Marketplace Contract - This contract allows NFT owners to put their digital assets for rent on an open market.
 
 
-## Clone This Project & Play Around
-
+## How To Run This Project Locally
 
 ### Clone This Repo
 ```shell
@@ -55,10 +76,24 @@ npx hardhat test
 
 ```
 
-### Run The frontend
+### [Frontend Instructions](https://github.com/ShivaShanmuganathan/rental-marketplace-frontend)
 
 ``` shell
-cd frontend
+git clone https://github.com/ShivaShanmuganathan/rental-marketplace-frontend
+cd rental-marketplace-frontend
 npm install
 npm run dev
 ```
+
+
+## Working Explained In Detail
+- Anyone who has created a ERC721 contract with additional functions similar to NFT.sol can list their NFTs for Rent in the Marketplace.
+- When an owner lists a NFT for rent in the Marketplace, the ownership of the item will be transferred from the owner to the marketplace.
+- Anyone can rent the NFTs listed in the marketplace by paying rent.
+- When a user rents a NFT, the rental price will be transferred from the buyer to the seller and the NFT will be transferred from the marketplace to the renter.
+- The Renter will not be able to transfer the NFT to anyone, because the NFT.sol contract prevents the token transfer while it is on rent.
+- Finish Renting function will enable anyone to end the renting process, and return the NFT to the NFT Owner. 
+
+``` The marketplace owner will be able to set a listing fee. This fee will be paid by the NFT owner when listing NFT in the renal marketplace, and transferred to the contract owner, enabling the owner of the marketplace to earn recurring revenue from any listing transacted in the marketplace. ```
+
+
