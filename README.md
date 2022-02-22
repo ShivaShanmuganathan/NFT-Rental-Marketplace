@@ -6,8 +6,8 @@
 
 ### Fullstack NFT Rental Marketplace Dapp ✨Collateral Free Renting✨
 
-- NFT Owners can rent their NFT by specifying the name, description, rental duration, and rental price. 
-- Anyone can rent the NFT from the Rental Marketplace by paying the rental price.
+- NFT Owner can list their NFT for rent by specifying the name, description, rental duration, and rental price. 
+- Anyone can rent the NFT from the Rental Marketplace by paying the rental price. [ No Collateral ]
 - The Renter will not be able to transfer the rented NFT to anyone. 
 - After the end of the rental duration, either the renter, owner or anyone can call finishRenting function to transfer the NFT from Renter to the NFT Owner.
 
