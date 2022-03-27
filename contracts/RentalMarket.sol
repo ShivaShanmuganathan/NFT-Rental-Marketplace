@@ -292,6 +292,8 @@ contract RentalMarket is ReentrancyGuard {
       }
     }
 
+    console.log("total claimable items", itemCount);
+
     MarketItem[] memory items = new MarketItem[](itemCount);
     for (uint i = 0; i < totalItemCount; i++) {
       if (idToMarketItem[i + 1].isActive && idToMarketItem[i + 1].expiresAt <= block.timestamp) {

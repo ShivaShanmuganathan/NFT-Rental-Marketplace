@@ -139,13 +139,14 @@ describe("NFT Rental Marketplace", function() {
 
   it("Increase Time & Finish Renting Rented NFT After Expiry", async function() {
     
-
+    console.log("Time Now",new Date().getTime())
+    //get how time is calculated in frontend
     await network.provider.send('evm_setNextBlockTimestamp', [expiresAt])
     console.log("~~~~~~~~~~~~~~~~~~~~~~~ TIME INCREASED ~~~~~~~~~~~~~~~~~~~~~~~")
 
     // console.log("~~~~~~~~~~~~~~~~~~~~~~~ AFTER TIME ~~~~~~~~~~~~~~~~~~~~~~~")
-    console.log();
-
+    
+    console.log(await market.connect(buyerAddress).fetchItemsClaimable())
     // console.log("Checking Second NFT ")
     console.log("NFT 2 Owner Before Finish Renting-> ", await nft.ownerOf(2))
     await market.connect(guyAddress).finishRenting(2)
@@ -184,16 +185,15 @@ describe("NFT Rental Marketplace", function() {
     // await market.connect(buyerAddress).tokenOwnerClaimsNFT(3);
     // console.log("~~~~~~~~~~~~~~~~~~~~~~~ OWNER CAN COLLECT THE NFT FROM MARKETPLACE 2 ~~~~~~~~~~~~~~~~~~~~~~~");
     
+  })
 
+  it("Test Fetching Functions", async function() {
 
     console.log("~~~~~~~~~~~~~~~~~~~~~~~ TESTING FETCH FUNCTIONS ~~~~~~~~~~~~~~~~~~~~~~~");
 
     await market.connect(buyerAddress).createMarketItem(nftContractAddress, 4, auctionPrice, 100, { value: listingPrice })
     console.log("Returned Value For Fetch Function", await market.connect(buyerAddress).fetchMarketItems());
-
-
-
-
+    
 
   })
 
