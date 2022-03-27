@@ -6,6 +6,7 @@ const { network  } = require("hardhat");
 
 describe("NFT Rental Marketplace", function() {
 
+<<<<<<< HEAD
   let buyerAddress, renterAddress, renterAddress2, guyAddress;
 
   before(async function () {
@@ -13,6 +14,10 @@ describe("NFT Rental Marketplace", function() {
   })
 
   it("Should Deploy Rental Marketplace & NFT contract", async function() {
+=======
+  it("Should List NFT for Rent in Marketplace, allow anyone to Rent from Marketplace, enable finish renting on NFT ", async function() {
+    
+>>>>>>> 37ec38c8340100f513d8c2abe332e10f78f86c42
     const Market = await ethers.getContractFactory("RentalMarket")
     market = await Market.deploy()
     await market.deployed()
@@ -74,6 +79,7 @@ describe("NFT Rental Marketplace", function() {
 
   it("Non-NFT Owner creating a listing on Rental Marketplace is prohibited ", async function() {
     
+<<<<<<< HEAD
     await expect(market.connect(guyAddress).createMarketItem(nftContractAddress, 4, auctionPrice, 100, { value: listingPrice })).to.be.revertedWith('ERC721: transfer of token that is not own')
 
   });
@@ -95,6 +101,13 @@ describe("NFT Rental Marketplace", function() {
     await market.connect(renterAddress2).rentMarketItem(nftContractAddress, 3, { value: auctionPrice});
     expect(await nft.ownerOf(3)).to.be.equal(renterAddress2.address)
     // console.log("~~~~~~~~~~~~~~~~~~~~~~~ USER CAN RENT FROM MARKETPLACE ~~~~~~~~~~~~~~~~~~~~~~~")
+=======
+    await market.connect(renterAddress).rentMarketItem(1, { value: auctionPrice});
+    await market.connect(renterAddress).rentMarketItem(2, { value: auctionPrice});
+    console.log("NFT 3 Owner Before-> ", await nft.ownerOf(3))
+    console.log("MarketPlace Address-> ", marketAddress)
+    await market.connect(renterAddress2).rentMarketItem(3, { value: auctionPrice});
+>>>>>>> 37ec38c8340100f513d8c2abe332e10f78f86c42
     
   });
 
@@ -153,46 +166,12 @@ describe("NFT Rental Marketplace", function() {
     console.log("NFT 2 Owner After Finish Renting-> ", await nft.ownerOf(2))
     
     console.log();
-    // console.log("~~~~~~~~~~~~~~~~~~~~~~~ USER CAN PAYBACK THE RENTED NFT ~~~~~~~~~~~~~~~~~~~~~~~")
-    
-    // const expiresAtNew = dayjs().add(3, 'day').unix()
-    // console.log();
-    
-    
-    // await market.connect(buyerAddress).tokenOwnerClaimsNFT(1);
-    // console.log("~~~~~~~~~~~~~~~~~~~~~~~ OWNER CAN COLLECT THE NFT FROM MARKETPLACE ~~~~~~~~~~~~~~~~~~~~~~~");
-    
-    // let newListingPrice = (await market.getListingPrice())/2
-    // newListingPrice = newListingPrice.toString()
-    
-    // await market.connect(buyerAddress).tokenOwnerModifiesNFT(2, auctionPrice, expiresAtNew, { value: newListingPrice });
-    
-    
-    // await market.connect(buyerAddress).tokenOwnerModifiesNFT(3, auctionPrice, expiresAtNew, { value: newListingPrice });
-    // console.log("~~~~~~~~~~~~~~~~~~~~~~~ OWNER CAN MODIFY THE RENTAL DETAILS OF NFT IN MARKETPLACE ~~~~~~~~~~~~~~~~~~~~~~~");
-    
-    // await market.connect(renterAddress).rentMarketItem(nftContractAddress, 2, { value: auctionPrice});
-    // await market.connect(renterAddress2).rentMarketItem(nftContractAddress, 3, { value: auctionPrice});
-    
-    // await market.connect(renterAddress).finishRenting(2);
-
-    // await network.provider.send('evm_setNextBlockTimestamp', [expiresAtNew]);
-    // await market.connect(guyAddress).finishRenting(3);
-    // console.log("~~~~~~~~~~~~~~~~~~~~~~~ ANYONE CAN FINISH RENTING THE NFT FROM MARKETPLACE ~~~~~~~~~~~~~~~~~~~~~~~");
-
-    // await market.connect(buyerAddress).tokenOwnerClaimsNFT(2);
-    // await market.connect(buyerAddress).tokenOwnerClaimsNFT(3);
-    // console.log("~~~~~~~~~~~~~~~~~~~~~~~ OWNER CAN COLLECT THE NFT FROM MARKETPLACE 2 ~~~~~~~~~~~~~~~~~~~~~~~");
-    
 
 
     console.log("~~~~~~~~~~~~~~~~~~~~~~~ TESTING FETCH FUNCTIONS ~~~~~~~~~~~~~~~~~~~~~~~");
 
     await market.connect(buyerAddress).createMarketItem(nftContractAddress, 4, auctionPrice, 100, { value: listingPrice })
     console.log("Returned Value For Fetch Function", await market.connect(buyerAddress).fetchMarketItems());
-
-
-
 
 
   })
