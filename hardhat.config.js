@@ -1,7 +1,9 @@
 
 require("@nomiclabs/hardhat-waffle")
+require('solidity-coverage')
 
 const fs = require('fs')
+
 const privateKey = fs.readFileSync(".secret").toString().trim() || "01234567890123456789"
 
 module.exports = {

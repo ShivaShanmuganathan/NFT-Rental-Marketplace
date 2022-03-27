@@ -32,6 +32,7 @@ export default function MyAssets() {
     
     const items = await Promise.all(data.map(async i => {
       const tokenUri = await tokenContract.tokenURI(i.tokenId)
+      console.log(tokenUri)
       const meta = await axios.get(tokenUri)
       let price = ethers.utils.formatUnits(i.price.toString(), 'ether')
       let time = (i.expiresAt - (Math.floor(Date.now() / 1000)))
