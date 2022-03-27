@@ -105,3 +105,8 @@ npm run dev
 ``` The marketplace owner will be able to set a listing fee. This fee will be paid by the NFT owner when listing NFT in the renal marketplace, and transferred to the contract owner, enabling the owner of the marketplace to earn recurring revenue from any listing transacted in the marketplace. ```
 
 
+## Test Coverage Report
+![image](./test-coverage-report.JPG)
+
+## Gas Report
+![image](./gas-report-rental.JPG)

@@ -169,9 +169,6 @@ describe("NFT Rental Marketplace", function() {
     
     console.log();
     
-    
-    
-    
   })
 
   
@@ -180,7 +177,7 @@ describe("NFT Rental Marketplace", function() {
 
     await market.connect(buyerAddress).setListingPrice(ethers.utils.parseUnits('0.1', 'ether'))
     expect(await market.getListingPrice()).to.be.equal(ethers.utils.parseUnits('0.1', 'ether'))
-    
+
   })
 
   
