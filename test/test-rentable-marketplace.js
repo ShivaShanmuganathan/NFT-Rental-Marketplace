@@ -135,18 +135,32 @@ describe("NFT Rental Marketplace", function() {
   });
 
 
+  it("Check NFTs Rented by the user in this marketplace", async function() {
+    console.log("~~~~~~~~~~~~~~~~~~~~~~~ TESTING FETCH FUNCTIONS ~~~~~~~~~~~~~~~~~~~~~~~");
+    console.log(await market.connect(renterAddress.address).fetchRentedNFTs())
+    
+    await market.connect(buyerAddress).createMarketItem(nftContractAddress, 4, auctionPrice, 100, { value: listingPrice })
+    console.log("Returned Value For Fetch Function", await market.connect(buyerAddress).fetchMarketItems());
+    await market.connect(buyerAddress).fetchMyNFTs()    
+
+  })
+
+
 
 
   it("Increase Time & Finish Renting Rented NFT After Expiry", async function() {
     
     console.log("Time Now",new Date().getTime())
     //get how time is calculated in frontend
-    await network.provider.send('evm_setNextBlockTimestamp', [expiresAt])
+    await ethers.provider.send('evm_increaseTime', [1800]);
+    await ethers.provider.send('evm_mine');
     console.log("~~~~~~~~~~~~~~~~~~~~~~~ TIME INCREASED ~~~~~~~~~~~~~~~~~~~~~~~")
 
     // console.log("~~~~~~~~~~~~~~~~~~~~~~~ AFTER TIME ~~~~~~~~~~~~~~~~~~~~~~~")
     
     console.log(await market.connect(buyerAddress).fetchItemsClaimable())
+    // console.log("Returned Value For Fetch Function", await market.connect(buyerAddress).fetchMarketItems());
+
     // console.log("Checking Second NFT ")
     console.log("NFT 2 Owner Before Finish Renting-> ", await nft.ownerOf(2))
     await market.connect(guyAddress).finishRenting(2)
@@ -154,47 +168,21 @@ describe("NFT Rental Marketplace", function() {
     console.log("NFT 2 Owner After Finish Renting-> ", await nft.ownerOf(2))
     
     console.log();
-    // console.log("~~~~~~~~~~~~~~~~~~~~~~~ USER CAN PAYBACK THE RENTED NFT ~~~~~~~~~~~~~~~~~~~~~~~")
-    
-    // const expiresAtNew = dayjs().add(3, 'day').unix()
-    // console.log();
     
     
-    // await market.connect(buyerAddress).tokenOwnerClaimsNFT(1);
-    // console.log("~~~~~~~~~~~~~~~~~~~~~~~ OWNER CAN COLLECT THE NFT FROM MARKETPLACE ~~~~~~~~~~~~~~~~~~~~~~~");
     
-    // let newListingPrice = (await market.getListingPrice())/2
-    // newListingPrice = newListingPrice.toString()
-    
-    // await market.connect(buyerAddress).tokenOwnerModifiesNFT(2, auctionPrice, expiresAtNew, { value: newListingPrice });
-    
-    
-    // await market.connect(buyerAddress).tokenOwnerModifiesNFT(3, auctionPrice, expiresAtNew, { value: newListingPrice });
-    // console.log("~~~~~~~~~~~~~~~~~~~~~~~ OWNER CAN MODIFY THE RENTAL DETAILS OF NFT IN MARKETPLACE ~~~~~~~~~~~~~~~~~~~~~~~");
-    
-    // await market.connect(renterAddress).rentMarketItem(nftContractAddress, 2, { value: auctionPrice});
-    // await market.connect(renterAddress2).rentMarketItem(nftContractAddress, 3, { value: auctionPrice});
-    
-    // await market.connect(renterAddress).finishRenting(2);
-
-    // await network.provider.send('evm_setNextBlockTimestamp', [expiresAtNew]);
-    // await market.connect(guyAddress).finishRenting(3);
-    // console.log("~~~~~~~~~~~~~~~~~~~~~~~ ANYONE CAN FINISH RENTING THE NFT FROM MARKETPLACE ~~~~~~~~~~~~~~~~~~~~~~~");
-
-    // await market.connect(buyerAddress).tokenOwnerClaimsNFT(2);
-    // await market.connect(buyerAddress).tokenOwnerClaimsNFT(3);
-    // console.log("~~~~~~~~~~~~~~~~~~~~~~~ OWNER CAN COLLECT THE NFT FROM MARKETPLACE 2 ~~~~~~~~~~~~~~~~~~~~~~~");
     
   })
 
-  it("Test Fetching Functions", async function() {
+  
 
-    console.log("~~~~~~~~~~~~~~~~~~~~~~~ TESTING FETCH FUNCTIONS ~~~~~~~~~~~~~~~~~~~~~~~");
+  it("Test Changing Listing Price", async function() {
 
-    await market.connect(buyerAddress).createMarketItem(nftContractAddress, 4, auctionPrice, 100, { value: listingPrice })
-    console.log("Returned Value For Fetch Function", await market.connect(buyerAddress).fetchMarketItems());
+    await market.connect(buyerAddress).setListingPrice(ethers.utils.parseUnits('0.1', 'ether'))
+    expect(await market.getListingPrice()).to.be.equal(ethers.utils.parseUnits('0.1', 'ether'))
     
-
   })
+
+  
 
 });
