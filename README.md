@@ -110,3 +110,6 @@ npm run dev
 
 ## Test Coverage Report 🛸
 ![image](./test-coverage-report.JPG)
+
+## Demo GIF 🎥
+![NFT-Rental-Marketplace-28-March-2022](https://user-images.githubusercontent.com/30176438/160345192-d56e13d5-645b-40f5-961a-f461758d62fc.gif)
