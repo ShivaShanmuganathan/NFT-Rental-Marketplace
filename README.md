@@ -1,19 +1,19 @@
-# NFT Rental Marketplace ✨Collateral Free Renting✨
+# 💎NFT Rental Marketplace 💸Collateral Free Renting🆓
 
-## [Check It Out](https://nft-rental-marketplace.netlify.app) ⏩ [nft-rental-marketplace.netlify.app](https://nft-rental-marketplace.netlify.app/) 
+## [💎Check Out](https://nft-rental-marketplace.netlify.app) 🔔 [nft-rental-marketplace.netlify.app](https://nft-rental-marketplace.netlify.app/) 
 
-## Project Description
+## Project Description 📝
 
-### Fullstack NFT Rental Marketplace Dapp ✨Collateral Free Renting✨
+### 💎Fullstack NFT Rental Marketplace Dapp ✨Collateral Free Renting✨
 
-- NFT Owner can list their NFT for rent by specifying the name, description, rental duration, and rental price. 
-- Anyone can rent the NFT from the Rental Marketplace by paying the rental price. [ No Collateral ]
+- NFT Owners can rent their NFT by specifying the name, description, rental duration, and rental price. 
+- Anyone can rent the NFT from the Rental Marketplace by paying the rental price.
 - The Renter will not be able to transfer the rented NFT to anyone. 
 - After the end of the rental duration, either the renter, owner or anyone can call finishRenting function to transfer the NFT from Renter to the NFT Owner.
+![capture](./rental-marketplace-screenshot.png)
 
-![alt text](capture.jpeg)
+![rental_poster1](./rental_poster1.JPG)
 
-![alt text](rental_poster1.JPG)
 
 
 <details> 
@@ -35,9 +35,9 @@
 
 ![alt text](rental_poster.JPG)  
 
-## About Contracts
+## About Contracts 📄
 
-#### This Project Is Deployed On [Polygon Mumbai Testnet [Check Out The Contract At]](https://mumbai.polygonscan.com/address/0x545f40130d0e93bc53f5f496079e4e6a4a0327d7)
+#### This Project Is Deployed On [Polygon Mumbai Testnet [Check Out The Contract At]](https://mumbai.polygonscan.com/address/0x545f40130d0e93bc53f5f496079e4e6a4a0327d7) 
 
 This project consists of two smart contracts:
 
@@ -45,7 +45,7 @@ This project consists of two smart contracts:
 
 - Marketplace Contract - This contract allows NFT owners to put their digital assets for rent on an open market.
 
-## About Frontend - [Frontend Code Is Here](https://github.com/ShivaShanmuganathan/rental-marketplace-frontend)
+## About Frontend 🎨🖌 - [Frontend Code Is Here](https://github.com/ShivaShanmuganathan/rental-marketplace-frontend)
 
 #### This project consists of five pages
 
@@ -55,11 +55,11 @@ This project consists of two smart contracts:
 - Rented NFTs - Users can view the NFTs they have rented
 - Claimable NFTs - Users can view all NFTs that is past the rental duration
 
-## Directory Structure
+## Directory Structure 📂
 - `contracts` ⏩ NFT Rental Marketplace and NFT Smart contracts that are deployed in the Polygon Mumbai Test Network.
 - `test` ⏩ Tests for Smart Contracts.
 
-## How To Run This Project Locally
+## How To Run This Project Locally 🏃🏾‍♂️💨
 
 ### Clone This Repo
 ```shell
@@ -94,7 +94,7 @@ npm run dev
 ```
 
 
-## Working Explained In Detail
+## Working Explained In Detail 📃
 - Anyone who has created a ERC721 contract with additional functions similar to NFT.sol can list their NFTs for Rent in the Marketplace.
 - When an owner lists a NFT for rent in the Marketplace, the ownership of the item will be transferred from the owner to the marketplace.
 - Anyone can rent the NFTs listed in the marketplace by paying rent.
@@ -105,8 +105,8 @@ npm run dev
 ``` The marketplace owner will be able to set a listing fee. This fee will be paid by the NFT owner when listing NFT in the renal marketplace, and transferred to the contract owner, enabling the owner of the marketplace to earn recurring revenue from any listing transacted in the marketplace. ```
 
 
-## Test Coverage Report
-![image](./test-coverage-report.JPG)
-
-## Gas Report
+## Gas Report ⛽
 ![image](./gas-report-rental.JPG)
+
+## Test Coverage Report 🛸
+![image](./test-coverage-report.JPG)
