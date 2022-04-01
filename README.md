@@ -74,6 +74,7 @@ cd NFT-Rental-Marketplace
 ``` shell
 npm install
 ```
+Rename `.secret-example` to `.secret` ⏩ Then paste your private-key in the .secret file
 
 ### Compile The Contracts & Test It
 
